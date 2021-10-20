@@ -1,31 +1,37 @@
-import React, { useState } from 'react'
-import Searchbar from './Searchbar'
-import Results from './Results'
-import { Card, Container, Line, Space, Button } from '@components/custom'
+import { Button, Card, Input } from 'antd'
+import React from 'react'
+import styled from 'styled-components'
+import { Typography } from 'antd'
+import { styles } from '@themes'
+import { useHistory } from 'react-router';
+const { Text } =Typography;
 
-
-export default function Home({ home }) {
-    const { results, loading, getGithubRepositories } = home;
-    const [search, setSearch] = useState();
-    const handleChange = e => {
-        setSearch(e.target.value)
-    }
-    const handleClick = e => {
-        if(search) 
-            getGithubRepositories(search)
+const Container=styled.div`
+    width: fit-content;
+    height: fit-content;
+     margin: 0% auto;
+    padding: 10rem 0;
+    border-radius: ${styles.borderRadius};
+   
+`
+export default function Landingpage() {
+    const history=useHistory();
+    const handleClick =() =>
+    {
+            history.push("/dashboard")
     }
     return (
         <Container>
-            <Space top="2em" bottom="1em" />
-            <Card>
-                <Searchbar onChange={handleChange} value={search} />
-                <Space top="1em" />
-                <Button disabled={loading || !search} onClick={handleClick}>{loading ? 'Searching' : 'Search'}</Button>
-                <Space top="2em" />
-                <Line />
-                <Space top="2em" />
-                <Results search={search} results={results} />
+            <Card style= {{margin:"0 auto", alignContent:"center", alignItems:"center"}}> 
+                <Text>Email</Text>
+                <Input type="email" placeholder="rahul@gmail.com"></Input>
+                <Text>password</Text>
+                <Input type="password" placeholder="*********"></Input>
+
+                <Button style={{margin:'1rem auto', alignItems:"center" ,display:"flex", padding:" 0 2rem"} } onClick={handleClick} type="primary" >Login</Button>
             </Card>
+
         </Container>
+      
     )
 }

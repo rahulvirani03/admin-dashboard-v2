@@ -2,6 +2,9 @@ import { BrowserRouter, Switch, Route  } from 'react-router-dom';
 import For from "@components/common/For"
 import { routeConfig } from "./route.config"
 import Navbar from '@components/common/Navbar';
+import "antd/dist/antd.css";
+
+
 function App() {
   return (
     <BrowserRouter>

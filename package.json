@@ -7,12 +7,13 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "antd": "^4.16.13",
     "axios": "^0.23.0",
-    "feather-icons-react": "^0.4.3",
+    "feather-icons-react": "^0.5.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-router-dom": "^5.3.0",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.0",

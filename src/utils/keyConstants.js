@@ -1,0 +1,24 @@
+const BASE_URL = 'http://localhost:8000';
+const STOREDETAILS='storedetails';
+const SERVICES='services';
+const THEME='theme';
+const SHARE='share';
+const SETTINGS='settings';
+const NAMEREGEX=/^[a-zA-Z ]{2,30}$/;
+const NUMBERREGEX=/^(\+\d{1,3}[- ]?)?\d{10}$/gm;
+const ALPHANUMBER =/^[a-zA-Z0-9 ]{2,100}$/;
+const ADDRESS = /^[#./0-9a-zA-Z\s,-]+$/;
+const ALPHANUM=/^[0-9a-zA-Z]+$/;
+const PAN= /^[A-Z]{5}[0-9]{4}[A-Z]{1}/;
+const GST=/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}/;
+const AADHAR=/^[01]\d{3}[\s-]?\d{4}[\s-]?\d{4}$/;
+const ACCEPTFILE = ['png','jpeg','jpg'];
+const ADS='ads'
+const CATEGORY='category'
+const POPUPS='popups'
+const SERVICE='service'
+const SELLER='seller'
+const VERIFIEDSELLER='verified-seller'
+const ADDSELLER='add-seller'
+const TRAFFICDASHBOARD='trafficdashboard'
+export {ADS,CATEGORY,ADDSELLER,POPUPS,SERVICE,SELLER,VERIFIEDSELLER,TRAFFICDASHBOARD,STOREDETAILS,SERVICES,SETTINGS,SHARE,THEME,ACCEPTFILE, NAMEREGEX,BASE_URL,NUMBERREGEX,ALPHANUMBER,ADDRESS,ALPHANUM,PAN,AADHAR,GST};

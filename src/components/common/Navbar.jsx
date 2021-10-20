@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { Container, FlexBetween } from '@components/custom';
+import { Button, Container, FlexBetween } from '@components/custom';
 import logo from '@assets/logo.svg';
 import { colors, styles } from '@themes';
 
@@ -29,6 +29,10 @@ const Link = styled(NavLink)`
 `;
 
 export default function Navbar() {
+    const handleClick= () => {
+        window.location.href="https://startup-landing-v1.netlify.app/";
+         
+    }
     return (
         <NavContainer>
             <Container>
@@ -39,6 +43,7 @@ export default function Navbar() {
                     <Links>
                         <Link exact to="/">Home</Link>
                         <Link to="/about">About</Link>
+                     <Button onClick={handleClick}>Go to Website</Button>
                     </Links>
                 </FlexBetween>
             </Container>

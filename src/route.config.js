@@ -1,6 +1,8 @@
 import Home from "@pages/Home";
 import routeConstants from "@utils/routeConstants";
 import About from "@pages/About";
+import AdminDashboard from "@pages/Dashboard";
+import temp from "@pages/temp";
 
 export const routeConfig = {
     home: {
@@ -10,5 +12,9 @@ export const routeConfig = {
     about: {
         component: About,
         ...routeConstants.about
+    },
+    dashboard: {
+        component: AdminDashboard,
+        ...routeConstants.dashboard
     }
 }
