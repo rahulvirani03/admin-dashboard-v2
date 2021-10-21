@@ -3,16 +3,15 @@ export default {
       route: '/',
       exact: true
     },
-    about: {
-      route: '/about',
-      props: {
-        title: 'This is about page'
-      }
-    },
-      dashboard: {
+    dashboard: {
         route: '/dashboard',
         props: {
-          title: 'This is about page'
+       }
+      },
+      seller: {
+        route: '/seller/:id',
+        props: {
+          
         }
       }
     };

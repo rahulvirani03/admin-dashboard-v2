@@ -1,20 +1,19 @@
 import Home from "@pages/Home";
 import routeConstants from "@utils/routeConstants";
-import About from "@pages/About";
 import AdminDashboard from "@pages/Dashboard";
-import temp from "@pages/temp";
+import SellerVerification from "@pages/SellerVerification";
 
 export const routeConfig = {
     home: {
         component: Home,
         ...routeConstants.home
     },
-    about: {
-        component: About,
-        ...routeConstants.about
-    },
     dashboard: {
         component: AdminDashboard,
         ...routeConstants.dashboard
+    },
+    seller: {
+        component: SellerVerification,
+        ...routeConstants.seller
     }
 }

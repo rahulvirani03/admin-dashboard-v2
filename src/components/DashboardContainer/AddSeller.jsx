@@ -1,7 +1,10 @@
-import React from 'react'
-import { Button,Input, InputNumber, Modal,Form, Radio } from 'antd';
+import React, { useState } from 'react'
+import { Input, InputNumber, Modal,Form, Radio } from 'antd';
+import { storeSeller } from '@/Firebase/firestore';
+import { Button } from '@components/custom';
 
 export default function AddSeller() {
+  
     const layout = {
         labelCol: {
           span: 6,
@@ -10,9 +13,25 @@ export default function AddSeller() {
           span: 16,
         },
       };
-      const onFinish = (values) => {
-    
-     
+      const [seller,setSeller]=useState({
+        seller_id:"",
+        business_name:"",
+        aadharorpan:"",
+        address:"",
+        store_link:"",
+        description:"",
+        document:"",
+      });
+      const handleChange = (e) =>{
+        console.log(e.target.name);
+        console.log(e.target.value); 
+        setSeller({...seller,
+          [e.target.name]:e.target.value})
+      }
+      const handleSubmit = async () => {
+         console.log({seller});
+         const res=await storeSeller(seller)
+        console.log(res);
       };
       const validateMessages = {
         required: '${label} is required!',
@@ -27,19 +46,19 @@ export default function AddSeller() {
       };
     
     return (
-        <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+        <Form {...layout} name="nest-messages"  validateMessages={validateMessages}>
                   <Form.Item
-                      name={['seller', 'seller_id']}
+                      name="seller_id"
                       label="Seller Id"
                       rules={[
                         {
                           required: true,
                         },
                       ]}>
-                    <Input/>
+                    <Input   name="seller_id" onChange={handleChange}/>
                   </Form.Item>
                   <Form.Item
-                      name={['seller', 'business_name']}
+                      name="business_name"
                       label="Seller Name"
                       rules={[
                         {
@@ -47,65 +66,63 @@ export default function AddSeller() {
                           
                         },
                       ]}>
-                    <Input/>
+                    <Input  name="business_name" onChange={handleChange}/>
                   </Form.Item>
                   <Form.Item
-                      name={['seller', 'description']}
+                      name='description'
                       label="Description"
                       rules={[
                         {
                           required: true,
                         },
                       ]}>
-                    <Input/>
+                    <Input  name='description' onChange={handleChange}/>
                   </Form.Item>
                   <Form.Item
-                      name={['seller', 'store_link']}
+                      name='store_link'
                       label="Store Link"
                       rules={[
                         {
                           required: true,
                         },
                       ]}>
-                      <Input/>
+                      <Input name='store_link' onChange={handleChange}/>
                   </Form.Item>
                   <Form.Item
-                      name={['seller', 'address']}
+                      name='address'
                       label="Address"
                       rules={[
                         {
                           required: true,
                         },
                       ]}>
-                      <Input/>
+                      <Input  name='address' onChange={handleChange}/>
                   </Form.Item>
                   <Form.Item
-                    name={['seller', 'aadharorpan']}
+                    name= 'aadharorpan'
                     label="Aadhar or Pan"
                     rules={[
                       {
                         required: true,
                       },
                     ]}>
-                      <Radio.Group defaultValue="Aadhar" buttonStyle="solid">
+                      <Radio.Group   name= 'aadharorpan' onChange={handleChange} defaultValue="Aadhar" buttonStyle="solid">
                       <Radio.Button value={"Aadhar"}>Aadhar</Radio.Button>
                       <Radio.Button value={"Pan"}>PAN</Radio.Button>
                       </Radio.Group>
                   </Form.Item>
                   <Form.Item
-                      name={['seller', 'document']}
+                      name='document'
                       label=" Documnent"
                       rules={[
                         {
                           required: true,
                         },
                       ]}>
-                      <Input/>
+                      <Input   name='document' onChange={handleChange}/>
                   </Form.Item>
                   <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-                    <Button type="primary" htmlType="submit">
-                      Add Seller
-                    </Button>
+                   <Button onClick={handleSubmit}>Add Seller</Button>
                   </Form.Item>
           </Form>
     )

@@ -37,12 +37,8 @@ export default function Navbar() {
         <NavContainer>
             <Container>
                 <FlexBetween>
-                    <Logo to="/">
-                        <img width="120" src={logo} alt="logo" />
-                    </Logo>
+                      <Link to="/"> StartUp</Link>
                     <Links>
-                        <Link exact to="/">Home</Link>
-                        <Link to="/about">About</Link>
                      <Button onClick={handleClick}>Go to Website</Button>
                     </Links>
                 </FlexBetween>
