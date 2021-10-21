@@ -1,121 +1,73 @@
-import React, { forwardRef, useState,useEffect } from 'react'
-import { colors,styles } from '@themes';
-import styled from 'styled-components';
-import { Button,Input, InputNumber, Modal,Form, Radio } from 'antd';
-import axios from 'axios';
-const Container =styled.div`
-
+import React, { useState, useEffect } from "react";
+import { getSellers } from "@/Firebase/firestore";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
+import { Spin, Card,Descriptions,List,Avatar } from "antd";
+import { styles } from "@themes";
+import { LoadingOutlined ,UserOutlined } from "@ant-design/icons";
+const Container = styled.div`
+  position: relative;
+  align-items: center;
+  justify-content: center;
 `;
-const TableContainer=styled.div`
-    
-    max-width: 1055px;
-    display:block;
-    
-    
+const CustomSpin = styled(Spin)`
+  position: relative;
+  top: 50%;
+  margin: 200px 30rem;
+`;
+const CustomCard = styled(Card)`
+  border-radius: ${styles.borderRadius};
+  box-shadow: ${styles.boxShadow};
+  margin-bottom: 1rem;
 `;
 export default function Sellers() {
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+  const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState("");
 
-  const layout = {
-    labelCol: {
-      span: 6,
-    },
-    wrapperCol: {
-      span: 16,
-    },
-  };
-  const onFinish = (values) => {
-
-    setShowdata( data => [...data,values["seller"]]);
-   console.log(showdata);
-  };
-  const validateMessages = {
-    required: '${label} is required!',
-    types: {
-
-      email: '${label} is not a valid email!',
-      number: '${label} is not a valid number!',
-    },
-    number: {
-      range: '${label} must be between ${min} and ${max}',
-    },
-  };
-
-const [modal,setModal]=useState(false);
-const [sellers,setSellers]=useState([]);
-const handleOk = () => {
-  setModal(false);
-};
-
-const handleCancel = () => {
-  setModal(false);
-};
-
-const deleteData =(rowData) => {
-  console.log("Log");
-  console.log(rowData);
-  setShowdata(showdata.filter(data => data.seller_id !==rowData.seller_id))
-}
-const [showdata,setShowdata]=useState([
-  {
-      seller_id:2,
-      business_name:"Rahul Foods and general store",
-      store_link:"startup.in/rahulfoodsandgeneralstore",
-      description:"A local general store",
-      address:"19/A Holaram Colony Nashik",
-      aadharorpan:"Aadhar",
-      document:"Aadhar",
-      isFlagged:"No",
-      flagged_count:"0"
-  },
-  {
-      seller_id:3,
-      business_name:"New Rahul Foods and general store",
-      store_link:"startup.in/newrahulfoodsandgeneralstore",
-      description:"A new local general store",
-      address:"Mahatma Nagar",
-      aadharorpan:"Aadhar",
-      document:"Aadhar",
-      isFlagged:"No",
-      flagged_count:"0"
-  }
-]);
-
-  const columns=[
-                    { 
-                        title: "Seller Name", 
-                        field: "name",
-                        cellStyle: {
-                          whiteSpace: 'nowrap',
-                          borderRight: '1px solid #e5e5e5'
-                        }
-                      
-                      },
-                    { 
-                        title: "Seller Username", 
-                        field: "username",
-                        cellStyle: {
-                          whiteSpace: 'nowrap',
-                          borderRight: '1px solid #e5e5e5'
-                        }
-                        
-                      },
-  ];
   useEffect(() => {
-    axios.get("https://startup-v1.herokuapp.com/api/admin/sellers").then(({data}) => {
-      setSellers([...sellers,data.data])
-      console.log({data:data.data});
-      
-  })
-   
-  },[])
-              
-return (
+    setLoading(true);
+    const sellersData = async () => {
+      const result = await getSellers();
+      setLoading(false);
+      let temp = result.data;
+      setData(result.data);
+      console.log(data);
+    };
+
+    sellersData();
+  }, []);
+  return (
     <Container>
-     
-        <TableContainer>
-         
-       Sellers
-        </TableContainer>
+      {loading ? (
+        <CustomSpin indicator={antIcon}></CustomSpin>
+      ) : (
+      
+          <CustomCard>
+             <List
+    itemLayout="horizontal"
+    dataSource={data}
+    renderItem={item => (
+      <List.Item>
+        <List.Item.Meta
+          avatar={<UserOutlined size="60px"/>}
+          title={<a  onClick={() =>
+            history.push({
+              pathname: `/view-seller/${item.seller_id}`,
+              state: { sellerdata: item },
+            })
+          }>{item.business_name}</a>}
+          description={item.description}
+          storelink={item.store_link}
+        />
+      </List.Item>
+    )}
+  />
+          
+          </CustomCard>
+        
+      )}
     </Container>
-    )
+  );
 }

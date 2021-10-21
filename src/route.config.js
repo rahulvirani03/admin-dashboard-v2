@@ -2,6 +2,7 @@ import Home from "@pages/Home";
 import routeConstants from "@utils/routeConstants";
 import AdminDashboard from "@pages/Dashboard";
 import SellerVerification from "@pages/SellerVerification";
+import SellerView from "@pages/SellerView";
 
 export const routeConfig = {
     home: {
@@ -12,8 +13,14 @@ export const routeConfig = {
         component: AdminDashboard,
         ...routeConstants.dashboard
     },
-    seller: {
+    verifyseller: {
         component: SellerVerification,
-        ...routeConstants.seller
-    }
+        ...routeConstants.verifyseller
+    },
+    viewseller: {
+        component: SellerView,
+        ...routeConstants.viewseller
+    },
+    
+
 }

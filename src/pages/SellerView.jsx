@@ -22,20 +22,14 @@ const CustomCard = styled(Card)`
   margin: 1rem;
 `;
 
-export default function SellerVerification({ location }) {
+export default function SellerView({ location }) {
 
   const history = useHistory();
   const [data, setData] = useState(location.state.sellerdata);
 
   const handleApprove = async () => {
-    let sellerRef = "";
-    sellerRef = doc(db, "seller", `${data.business_name}`);
-    console.log(sellerRef);
-    const output = await updateDoc(sellerRef, {
-      isSeller: true,
-    });
-    console.log(output);
-    history.push("/dashboard?key=requests");
+   
+    history.goBack();
   };
   return (
     <Container>
@@ -54,7 +48,7 @@ export default function SellerVerification({ location }) {
             >
               Approve
             </Button>
-            <Button onClick={ () => history.push("/dashboard?key=requests")}
+            <Button onClick={ () => history.goBack()}
               style={{
                 margin: "0.5rem",
                 width: "6rem",

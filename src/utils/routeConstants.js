@@ -8,10 +8,14 @@ export default {
         props: {
        }
       },
-      seller: {
-        route: '/seller/:id',
-        props: {
-          
+      verifyseller: {
+        route: '/verify-seller/:id',
+        props: { 
         }
-      }
+      },
+      viewseller: {
+        route: '/view-seller/:id',
+        props: { 
+        }
+      },
     };
