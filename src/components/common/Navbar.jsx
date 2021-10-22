@@ -62,7 +62,7 @@ export default function Navbar() {
                 <FlexBetween>
                       <Link to="/"> StartUp</Link>
                     <Links>
-                    {auth.currentUser!==null && <AntdButton style={{height:"100%", margin:"1rem",padding:".5rem"}} icon={<LogoutOutlined/>} onClick={handleLogout}/> }
+                     <AntdButton style={{height:"100%", margin:"1rem",padding:".5rem"}} icon={<LogoutOutlined/>} onClick={handleLogout}/> 
                     <Button onClick={handleClick}>Go to Website</Button>
                     </Links>
                 </FlexBetween>

@@ -23,6 +23,10 @@ const Container = styled.div`
   margin: 0% auto;
   padding: 10rem 0;
   border-radius: ${styles.borderRadius};
+  @media only screen and (max-width: 600px) {
+   display: block;
+   
+}
 `;
 
 const CustomCard = styled(Card)`
@@ -37,7 +41,12 @@ const CustomLoginCard = styled(Card)`
   width: 400px;
   border-radius: ${styles.borderRadius};
   box-shadow: ${styles.boxShadow};
-  margin-bottom: 2rem;
+  margin: 0 auto;
+  @media only screen and (max-width:  600px) {
+  margin: 2rem auto;
+   
+}
+
 `;
 
 const Heading = styled.h1`

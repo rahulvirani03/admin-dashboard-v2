@@ -24,10 +24,16 @@ text-align: center;
   min-width: 10rem;
   height: 15vh;
   margin:0.8rem;
+  justify-content: center;
   box-shadow: ${styles.boxShadow};
   background-color: ${colors.white};
   border-radius: ${styles.borderRadius};
   cursor: pointer;
+  @media only screen and (max-width:  600px) {
+  margin: 1.5rem auto;
+   
+}
+
  
 `;
 export default function Sellers() {
