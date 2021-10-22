@@ -42,7 +42,7 @@ const getCategories = async () => {
     data.push(temp);
   });
   console.log(data);
-  return { id, data };
+  return {data };
 };
 
 const setFirestoreCategories =async (category) =>{
