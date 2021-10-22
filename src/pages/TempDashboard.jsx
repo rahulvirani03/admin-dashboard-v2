@@ -8,6 +8,7 @@ import {
     BgColorsOutlined,
     UnorderedListOutlined,
     MessageFilled,
+    UserAddOutlined
   
 } from '@ant-design/icons';
 import styled from "styled-components";
@@ -96,7 +97,7 @@ export default function TempDashboard() {
           </Menu.Item>
           <Menu.Item
             key="add-seller"
-            icon={<UserOutlined />}
+            icon={<UserAddOutlined />}
             onClick={() => {
               history.replace(`/dashboard?key=${ADDSELLER}`);
             }}
