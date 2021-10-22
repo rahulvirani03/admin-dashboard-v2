@@ -67,7 +67,7 @@ export default function AdminDashboard({ location }) {
         >
           <Menu.Item
             key="dashboard"
-            icon={<DatabaseOutlined />}
+            icon={<DatabaseOutlined spin={true}/>}
             onClick={() => {
               history.replace(`/dashboard?key=${REQUESTS}`);
             }}

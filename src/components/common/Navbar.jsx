@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useHistory } from 'react-router-dom';
 import { Button, Container, FlexBetween } from '@components/custom';
 import logo from '@assets/logo.svg';
 import { colors, styles } from '@themes';
+import { Button  as AntdButton, notification} from 'antd';
+import { LogoutOutlined } from '@ant-design/icons'
+import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
 
 const NavContainer = styled.div`
     background-color: ${colors.white};
@@ -29,17 +32,38 @@ const Link = styled(NavLink)`
 `;
 
 export default function Navbar() {
+    const auth=getAuth();
+    const history=useHistory();
     const handleClick= () => {
         window.location.href="https://startup-landing-v1.netlify.app/";
          
     }
+    const handleLogout = () => {
+    
+       
+        console.log(auth);
+        signOut(auth).then(() => {
+            history.push("/")
+            notification["info"]({
+                message:"Admin Logged Out"
+            })
+        }).catch((error)=>{
+            notification["error"]({
+                message:error
+            })
+        })
+    }
+    useEffect(()=>{
+
+    },[auth])
     return (
         <NavContainer>
             <Container>
                 <FlexBetween>
                       <Link to="/"> StartUp</Link>
                     <Links>
-                     <Button onClick={handleClick}>Go to Website</Button>
+                    {auth.currentUser!==null && <AntdButton style={{height:"100%", margin:"1rem",padding:".5rem"}} icon={<LogoutOutlined/>} onClick={handleLogout}/> }
+                    <Button onClick={handleClick}>Go to Website</Button>
                     </Links>
                 </FlexBetween>
             </Container>
