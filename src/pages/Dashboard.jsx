@@ -7,7 +7,6 @@ import {
   SettingOutlined,
   ShareAltOutlined,
   BgColorsOutlined,
-  SafetyOutlined,
   UnorderedListOutlined,
   MessageFilled,
 } from "@ant-design/icons";
@@ -37,30 +36,34 @@ import Requests from "@components/DashboardContainer/Requests";
 const Container = styled.div`
   padding: 1.5rem;
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: 200px 1fr;
   gap: 30px;
+  height:70vh;
 `;
 const MenuContainer = styled.div`
+/* @media only screen and (max-width: 600px) {
+   display: none;
+    background-color: lightblue;
+} */
   margin: 0 auto;
   box-shadow: ${styles.boxShadow};
 `;
 const RenderComponent = styled.div`
-  box-shadow: ${styles.boxShadow};
-  background-color: ${colors.white};
+  border: 1px solid ${colors.greyLight};
+  border-radius: ${styles.borderRadius};
+
 `;
 export default function AdminDashboard({ location }) {
   const history = useHistory();
   const query = new URLSearchParams(location.search);
-  const key = query.get("key") || SELLER;
-  //const [key,setKey]=useState('dashboard');
+  const key = query.get("key") || REQUESTS;
 
   return (
     <Container>
       <MenuContainer>
         <Menu
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
-          mode="inline"
+          defaultSelectedKeys={REQUESTS}
+         key={REQUESTS}
         >
           <Menu.Item
             key="dashboard"
@@ -89,15 +92,6 @@ export default function AdminDashboard({ location }) {
             }}
           >
             Add Seller
-          </Menu.Item>
-          <Menu.Item
-            key="verified-seller"
-            icon={<SafetyOutlined />}
-            onClick={() => {
-              history.replace(`/dashboard?key=${VERIFIEDSELLER}`);
-            }}
-          >
-            Seller Verification
           </Menu.Item>
           <Menu.Item
             key="categories"

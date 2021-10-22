@@ -19,7 +19,7 @@ const storeSeller = async (seller) => {
 const getSellers = async () => {
   const data = [];
   let id = "";
-  const q = query(collection(db, "seller"));
+  const q = query(collection(db, "seller"), where("isSeller", "==", true));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     id = doc.id;
@@ -28,6 +28,40 @@ const getSellers = async () => {
   console.log(data);
   return { id, data };
 };
+
+const getCategories = async () => {
+  const data = [];
+  let id = "";
+  const q = query(collection(db, "categories"));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    id = doc.id;
+    const temp={
+      "id":id,
+      "data":doc.data()};
+    data.push(temp);
+  });
+  console.log(data);
+  return { id, data };
+};
+
+const setFirestoreCategories =async (category) =>{
+  try{
+    const netCategoryRef = doc(collection(db, "categories"));
+    const res = await setDoc(netCategoryRef,
+      {"name":category}
+   );
+   if(res)
+   {
+     return true
+   }
+  }
+  catch(e)
+  {
+    return e;
+  }
+ 
+}
 const getSellersWithWhere = async () => {
   const data = [];
   let id = "";
@@ -40,4 +74,4 @@ const getSellersWithWhere = async () => {
   console.log(data);
   return { id, data };
 };
-export { storeSeller, getSellers, getSellersWithWhere };
+export { storeSeller, getSellers, getSellersWithWhere,getCategories ,setFirestoreCategories};

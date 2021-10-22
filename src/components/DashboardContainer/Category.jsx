@@ -1,85 +1,114 @@
-import React,{useState} from 'react';
-import { Input,Button,Tag, Card } from 'antd';
-import styled from 'styled-components';
-import { styles } from '@themes';
-import { colors } from '@themes';
-const Container=styled.div`
-   align-items: center;
-    padding:2rem;
-`  ;
+import React, { useEffect, useState } from "react";
+import { Input, Button, Tag, Card, List, notification } from "antd";
+import styled from "styled-components";
+import { styles } from "@themes";
+import { colors } from "@themes";
+import { getCategories, setFirestoreCategories } from "@/Firebase/firestore";
+const Container = styled.div`
 
-const CustomButton=styled(Button)`
- 
-  &&{margin:0 auto};
-  &&{margin-bottom: 2rem};
-  &&{margin-top: 2rem};
-  &&{margin-left: 2rem};
-  &&{margin-right: 2rem};
-
-
+  align-items: center;
+  padding: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
 `;
-const CustomTagContainer=styled.div`
- display:grid;
-   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-`
-const CustomCard=styled(Card)`
-color:${colors.primary};
-background-color: ${colors['text-primary']};
-margin: 5px;
-font-size: ${styles.fontSmall};
-border-radius:${styles.borderRadius};
-box-shadow: ${styles.boxShadow};
-height: fit-content;
-text-align: center;
 
+const CustomCard = styled(Card)`
+  color: ${colors.primary};
+  background-color: ${colors["text-primary"]};
+  margin: 5px;
+  height: 5rem;
+  min-width: 9rem;
+  justify-content: center;
+  font-size: ${styles.fontSmall};
+  border-radius: ${styles.borderRadius};
+  box-shadow: ${styles.boxShadow};
 
-`
-const CustomDiv=styled.div`
+  text-align: center;
+`;
+const CustomDiv = styled.div`
+  margin: 1rem auto;
+  display: flex;
+  justify-content: space-between;
+`;
+const CategoryContainer=styled.div`
+display: flex;
+flex-wrap: wrap;
+ align-items: center;
+ justify-content: center;
+  padding: 1rem;
+   
+    align-items: center;
+    margin: 0 auto;
+`;
 
-    margin:1rem auto;
-    display: flex;
-    justify-content: space-between;
-`
 export default function Category() {
-    const handleClick= () =>{
-            setFilterData([...filterdata,value])
-            setValue("")
-    }
-    const [value,setValue]=useState("");
-        const [categories,setCategories]=useState([
-            "Clothing",
-            "Cosmetics",
-            "Jewellery",
-            "Grocerry",
-            "Footwear",
-        ]);
-        const [filterdata,setFilterData]=useState(categories);
-        const [filter,setFilter]=useState([]);
-        const handleSearch = (e) => {
-                console.log(e.target.value);
-                setFilter(e.target.value)
-                setFilterData(categories.filter(category => category.includes(e.target.value)))
-        }
-    return (
-       <Container>
-          <CustomDiv> 
-                <Input value={value} onChange={(e) =>{
-                    setValue(e.target.value)
-                    }} placeholder="Enter Category"/> 
-                <Button  st type="primary" onClick={handleClick}>Add Catexgory</Button>     
-           </CustomDiv>
-           
-           <CustomDiv>
-            <Input  style={{width:"100%"}} placeholder="Search Category" onChange={handleSearch}/>
-           </CustomDiv>
-           <CustomTagContainer style={{display:"grid"}}>
-            { 
-                filterdata.map(cateogory => {
-                   return<CustomCard style={{}}>{cateogory}</CustomCard>
-            }
-                )}
-             </CustomTagContainer>
+  const [value, setValue] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [filterdata, setFilterData] = useState(categories);
+  const [filter, setFilter] = useState("");
+  const [res, setRes] = useState("");
+  const handleClick = async () => {
+    let res1 = await setFirestoreCategories(value);
+    setRes(res1);
+    console.log(res);
+    notification["success"]({
+        message:"Category Added"
+    })
+    setValue("")
+  };
+  const handleSearch = (e) => {
+    console.log(e.target.value);
+    setFilter(e.target.value);
+    setFilterData(
+      categories.filter((category) => category.data.name.toLowerCase().includes(e.target.value.toLowerCase()))
+    );
+  };
+  useEffect(() => {
+    const getFirestoreCategories = async () => {
+      const result = await getCategories();
+      console.log(result.data);
+    
+      setCategories(result.data);
+      setFilterData(result.data)
+      console.log(categories);
+    };
+    getFirestoreCategories();
+    setRes("");
+  }, [res]);
+  return (
+    <Container>
+      <CustomDiv>
+        <Input
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          placeholder="Enter Category"
+        />
+        <Button type="primary" onClick={handleClick}>
+          Add Catexgory
+        </Button>
+      </CustomDiv>
+
+      <CustomDiv>
+        <Input
+          style={{ width: "100%" }}
+          placeholder="Search Category"
+          onChange={handleSearch}
+        />
+      </CustomDiv>
+        <CategoryContainer>
+      {
+        filterdata?.map(item =>{
+            return <CustomCard key={item.id}>
+            <p>{item.data.name}</p>
+          
+           </CustomCard>
+          })
          
-       </Container>
-    )
+      }
+      </CategoryContainer>
+    </Container>
+  );
 }

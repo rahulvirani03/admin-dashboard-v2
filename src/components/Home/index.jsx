@@ -115,7 +115,7 @@ export default function Landingpage() {
               onChange={handleChange}
               placeholder="rahul@gmail.com"
             ></Input>
-            <Text>password</Text>
+            <Text>Password</Text>
             <Input
               name="password"
               type="password"

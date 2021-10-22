@@ -3,8 +3,12 @@ import { useHistory } from "react-router-dom";
 import { Spin, Card } from "antd";
 import styled from "styled-components";
 import {styles } from "@themes";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc,getFirestore } from "firebase/firestore";
 import { Button } from "@components/custom";
+import { app } from "@/Firebase/firebase";
+
+
+
 const Container = styled.div`
   margin: 0 auto;
   max-width: ${styles.maxWidth};
@@ -23,10 +27,9 @@ const CustomCard = styled(Card)`
 `;
 
 export default function SellerVerification({ location }) {
-
+  const db = getFirestore(app);
   const history = useHistory();
   const [data, setData] = useState(location.state.sellerdata);
-
   const handleApprove = async () => {
     let sellerRef = "";
     sellerRef = doc(db, "seller", `${data.business_name}`);

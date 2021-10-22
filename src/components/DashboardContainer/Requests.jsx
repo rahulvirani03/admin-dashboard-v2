@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Descriptions, Card, Spin } from "antd";
+import { Descriptions, Card, Spin, Input, Button } from "antd";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import {  getSellersWithWhere } from "@/Firebase/firestore";
-import { LoadingOutlined } from "@ant-design/icons";
+import { getSellersWithWhere } from "@/Firebase/firestore";
+import { LoadingOutlined, SearchOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { styles } from "@themes";
 
@@ -12,6 +12,7 @@ const Container = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
+  padding: 1rem;
 `;
 const CustomSpin = styled(Spin)`
   position: relative;
@@ -21,15 +22,16 @@ const CustomSpin = styled(Spin)`
 const CustomCard = styled(Card)`
   border-radius: ${styles.borderRadius};
   box-shadow: ${styles.boxShadow};
-  margin-bottom: 1rem;
+  margin-top: 1rem;
 `;
 
 export default function Requests() {
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
+  const [filterData, setFilterData] = useState(null);
+
   const [id, setId] = useState();
   useEffect(() => {
     setLoading(true);
@@ -39,29 +41,33 @@ export default function Requests() {
       setId(result.id);
       let temp = result.data;
       setData(result.data);
+      setFilterData(result.data);
       console.log(data);
     };
 
     sellersData();
   }, []);
-  // const callSellerVerify =(seller) => {
-  //   console.log(seller.seller_id);
-
-  //   }
-
-  //   return (
-  //     <>
-
-  //      {data.map(user=><p>{user.business_name}</p>)}
-  //      </>)
-  //  }
+  const handleChange = (e) => {
+   
+    if(e.target.value==="")
+    {
+      setFilterData(data)
+    }
+    setFilterData(
+      data.filter((requests) => requests.business_name.toLowerCase().includes(e.target.value.toLowerCase())));
+    
+  };
+  
   return (
     <Container>
+    
+        <Input placeholder="Search Requests.. " onChange={handleChange} />
       {loading ? (
         <CustomSpin indicator={antIcon}></CustomSpin>
       ) : (
-        data?.map((seller) => (
+        filterData?.map((seller) => (
           <CustomCard
+            key={seller.seller_id}
             onClick={() =>
               history.push({
                 pathname: `/verify-seller/${seller.seller_id}`,
@@ -69,7 +75,6 @@ export default function Requests() {
               })
             }
           >
-            {/* <Link to={`/seller/${seller.seller_id}`}> */}
             <Descriptions title={seller.business_name}>
               <Descriptions.Item label="Seller ID">
                 {seller.seller_id}

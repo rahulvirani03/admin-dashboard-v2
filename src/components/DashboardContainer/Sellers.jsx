@@ -2,29 +2,41 @@ import React, { useState, useEffect } from "react";
 import { getSellers } from "@/Firebase/firestore";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { Spin, Card,Descriptions,List,Avatar } from "antd";
-import { styles } from "@themes";
+import { Spin, Input } from "antd";
+import { styles,colors } from "@themes";
 import { LoadingOutlined ,UserOutlined } from "@ant-design/icons";
+
 const Container = styled.div`
-  position: relative;
+display: flex;
+  flex-wrap: wrap;  
   align-items: center;
-  justify-content: center;
+ padding: 1rem;
+  
 `;
 const CustomSpin = styled(Spin)`
   position: relative;
   top: 50%;
   margin: 200px 30rem;
 `;
-const CustomCard = styled(Card)`
-  border-radius: ${styles.borderRadius};
+const CustomCard = styled.div`
+text-align: center;
+  padding: 0.5rem;
+  min-width: 10rem;
+  height: 15vh;
+  margin:0.8rem;
   box-shadow: ${styles.boxShadow};
-  margin-bottom: 1rem;
+  background-color: ${colors.white};
+  border-radius: ${styles.borderRadius};
+  cursor: pointer;
+ 
 `;
 export default function Sellers() {
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState("");
+  const [data, setData] = useState(false);
+  const [filterData, setFilterData] = useState(null);
+
 
   useEffect(() => {
     setLoading(true);
@@ -33,39 +45,43 @@ export default function Sellers() {
       setLoading(false);
       let temp = result.data;
       setData(result.data);
+      setFilterData(result.data)
       console.log(data);
     };
-
     sellersData();
   }, []);
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    
+    // if(e.target.value==="")
+    // {
+    //   setFilterData(data)
+    // }
+    setFilterData(
+      data.filter((item)=> item.business_name?.toLowerCase().includes(e.target.value?.toLowerCase())));
+    console.log(filterData);
+  };
   return (
     <Container>
+         <Input placeholder="Search Seller.. " onChange={handleChange} />
       {loading ? (
         <CustomSpin indicator={antIcon}></CustomSpin>
       ) : (
-      
-          <CustomCard>
-             <List
-    itemLayout="horizontal"
-    dataSource={data}
-    renderItem={item => (
-      <List.Item>
-        <List.Item.Meta
-          avatar={<UserOutlined size="60px"/>}
-          title={<a  onClick={() =>
-            history.push({
-              pathname: `/view-seller/${item.seller_id}`,
-              state: { sellerdata: item },
-            })
-          }>{item.business_name}</a>}
-          description={item.description}
-          storelink={item.store_link}
-        />
-      </List.Item>
-    )}
-  />
+        filterData?.map(item =>{
+          return <CustomCard key={item.seller_id} onClick={() => history.push({
+            pathname:`/view-seller/${item.seller_id}`,
+            state:{sellerdata:item}
+          })}>
+          <p>{item.business_name}</p>
+           <a >{item.store_link}</a>
+         </CustomCard>
+        })
+       
+       
+   
+  
           
-          </CustomCard>
+         
         
       )}
     </Container>

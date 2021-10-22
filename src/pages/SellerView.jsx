@@ -41,24 +41,16 @@ export default function SellerView({ location }) {
           <div>Aadhar or Pan: {data.aadharorpan}</div>
           <div>Store Link: {data.store_link}</div>
           <div>description: {data.description}</div>
-          <div style={{ display: "flex" }}>
+        
             <Button
               style={{ margin: "0.5rem", width: "6rem", textAlign: "center" }}
               onClick={handleApprove}
             >
-              Approve
+              Go Back
             </Button>
-            <Button onClick={ () => history.goBack()}
-              style={{
-                margin: "0.5rem",
-                width: "6rem",
-                textAlign: "center",
-                backgroundColor: "red",
-              }}
-            >
-              Reject
-            </Button>
-          </div>
+           
+             
+    
         </CustomCard>
       }
     </Container>

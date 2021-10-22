@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Input, InputNumber, Modal, Form, Radio } from "antd";
 import { storeSeller } from "@/Firebase/firestore";
 import { Button } from "@components/custom";
+import { useHistory } from "react-router-dom";
 
 export default function AddSeller() {
+  const history=useHistory();
   const layout = {
     labelCol: {
       span: 6,
@@ -30,6 +32,9 @@ export default function AddSeller() {
     console.log({ seller });
     const res = await storeSeller(seller);
     console.log(res);
+    setSeller("")
+    history.push('/dashboard?key=requests')
+    
   };
   const validateMessages = {
     required: "${label} is required!",
@@ -43,7 +48,9 @@ export default function AddSeller() {
   };
 
   return (
+
     <Form {...layout} name="nest-messages" validateMessages={validateMessages}>
+    <h2 style={{textAlign:"center"}}>  New Seller Form</h2>
       <Form.Item
         name="seller_id"
         label="Seller Id"
@@ -111,7 +118,6 @@ export default function AddSeller() {
         <Radio.Group
           name="aadharorpan"
           onChange={handleChange}
-          defaultValue="Aadhar"
           buttonStyle="solid"
         >
           <Radio.Button value={"Aadhar"}>Aadhar</Radio.Button>
