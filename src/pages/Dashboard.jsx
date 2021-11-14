@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Menu, Button } from "antd";
+import React,{useState} from 'react'
+import { Layout, Menu } from 'antd';
 import {
-  DatabaseOutlined,
-  UserOutlined,
-  SettingOutlined,
-  ShareAltOutlined,
-  BgColorsOutlined,
-  UnorderedListOutlined,
-  MessageFilled,
-} from "@ant-design/icons";
+    DatabaseOutlined,
+    UserOutlined,
+    SettingOutlined,
+    ShareAltOutlined,
+    BgColorsOutlined,
+    UnorderedListOutlined,
+    MessageFilled,
+    UserAddOutlined
+  
+} from '@ant-design/icons';
+import styled from "styled-components";
 import { styles, colors } from "@themes";
 import {
   ADS,
@@ -36,15 +38,12 @@ import Requests from "@components/DashboardContainer/Requests";
 const Container = styled.div`
   padding: 1.5rem;
   display: grid;
-  grid-template-columns: minmax(100px 1fr);
+  grid-template-columns: minmax( 1fr);
   gap: 30px;
   height:70vh;
 `;
 const MenuContainer = styled.div`
-/* @media only screen and (max-width: 600px) {
-   display: none;
-    background-color: lightblue;
-} */
+
   margin: 0 auto;
   box-shadow: ${styles.boxShadow};
 `;
@@ -53,21 +52,34 @@ const RenderComponent = styled.div`
   border-radius: ${styles.borderRadius};
 
 `;
-export default function AdminDashboard({ location }) {
-  const history = useHistory();
-  const query = new URLSearchParams(location.search);
-  const key = query.get("key") || REQUESTS;
+const { Header, Content, Footer, Sider } = Layout;
+const { SubMenu } = Menu;
 
-  return (
-    <Container>
-      <MenuContainer>
-        <Menu
+export default function Dashboard() {
+    const history = useHistory();
+    const query = new URLSearchParams(location.search);
+    const key = query.get("key") || REQUESTS;
+  
+    const [collapsed,setCollapsed]=useState(false)
+    
+    const handleCollapse = () => {
+    setCollapsed(!collapsed)
+}
+    return (
+        <Layout  style={{backgroundColor:`${colors.white}`,margin:"2px", borderRadius:`${styles.borderRadius}` , boxShadow:`${styles.boxShadow}`, minHeight: '100vh' }} >
+        <Sider  
+        theme="dark"
+        breakpoint="md"
+        collapsedWidth="50"
+        collapsible collapsed={collapsed} onCollapse={handleCollapse}>
+          <div className="logo" />
+          <Menu
           defaultSelectedKeys={REQUESTS}
          key={REQUESTS}
         >
           <Menu.Item
             key="dashboard"
-            icon={<DatabaseOutlined spin={true}/>}
+            icon={<DatabaseOutlined />}
             onClick={() => {
               history.replace(`/dashboard?key=${REQUESTS}`);
             }}
@@ -86,7 +98,7 @@ export default function AdminDashboard({ location }) {
           </Menu.Item>
           <Menu.Item
             key="add-seller"
-            icon={<UserOutlined />}
+            icon={<UserAddOutlined />}
             onClick={() => {
               history.replace(`/dashboard?key=${ADDSELLER}`);
             }}
@@ -139,8 +151,8 @@ export default function AdminDashboard({ location }) {
             Servie Assistance
           </Menu.Item>
         </Menu>
-      </MenuContainer>
-      <RenderComponent>
+        </Sider>
+        <Layout style={{backgroundColor:`${colors.white}`,margin:"2px", borderRadius:`${styles.borderRadius}` , boxShadow:`${styles.boxShadow}`}}>
         {key === REQUESTS && <Requests />}
         {key === SELLER && <Sellers />}
         {key === ADDSELLER && <AddSeller />}
@@ -150,7 +162,7 @@ export default function AdminDashboard({ location }) {
         {key === SERVICE && <Service />}
         {key === POPUPS && <Popups />}
         {key === SETTINGS && <Settings />}
-      </RenderComponent>
-    </Container>
-  );
+        </Layout>
+      </Layout>
+    )
 }

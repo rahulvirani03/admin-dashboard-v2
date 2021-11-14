@@ -45,7 +45,7 @@ flex-wrap: wrap;
 export default function Category() {
   const [value, setValue] = useState("");
   const [categories, setCategories] = useState([]);
-  const [filterdata, setFilterData] = useState(categories);
+  const [filterdata, setFilterData] = useState([]);
   const [filter, setFilter] = useState("");
   const [res, setRes] = useState("");
   const handleClick = async () => {
@@ -61,21 +61,25 @@ export default function Category() {
     console.log(e.target.value);
     setFilter(e.target.value);
     setFilterData(
-      categories.filter((category) => category.data.name.toLowerCase().includes(e.target.value.toLowerCase()))
+      categories.filter((category) => category.name.toLowerCase().includes(e.target.value.toLowerCase()))
     );
   };
   useEffect(() => {
     const getFirestoreCategories = async () => {
       const result = await getCategories();
-      console.log(result.data);
+      console.log(result);
     
-      setCategories(result.data);
-      setFilterData(result.data)
+      setCategories(result);
+      setFilterData(result)
       console.log(categories);
     };
     getFirestoreCategories();
     setRes("");
   }, [res]);
+  useEffect(() => {
+   console.log(categories)
+  }, [categories]);
+
   return (
     <Container>
       <CustomDiv>
@@ -100,9 +104,10 @@ export default function Category() {
       </CustomDiv>
         <CategoryContainer>
       {
+       
         filterdata?.map(item =>{
             return <CustomCard key={item.id}>
-            <p>{item.data.name}</p>
+            <p>{item.name}</p>
           
            </CustomCard>
           })

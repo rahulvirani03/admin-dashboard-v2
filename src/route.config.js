@@ -1,9 +1,8 @@
 import Home from "@pages/Home";
 import routeConstants from "@utils/routeConstants";
-import AdminDashboard from "@pages/Dashboard";
 import SellerVerification from "@pages/SellerVerification";
 import SellerView from "@pages/SellerView";
-import TempDashboard from "@pages/TempDashboard";
+import Dashboard from "@pages/Dashboard";
 
 export const routeConfig = {
     home: {
@@ -11,7 +10,7 @@ export const routeConfig = {
         ...routeConstants.home
     },
     dashboard: {
-        component: TempDashboard,
+        component: Dashboard,
         ...routeConstants.dashboard
     },
     verifyseller: {

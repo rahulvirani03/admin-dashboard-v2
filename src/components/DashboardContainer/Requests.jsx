@@ -75,16 +75,14 @@ export default function Requests() {
               })
             }
           >
-            <Descriptions title={seller.business_name}>
+            <Descriptions title={seller.displayName}>
               <Descriptions.Item label="Seller ID">
-                {seller.seller_id}
+                {seller.uid}
               </Descriptions.Item>
-              <Descriptions.Item label="Store Link">
-                {seller.store_link}
+              <Descriptions.Item label="Email">
+                {seller.email}
               </Descriptions.Item>
-              <Descriptions.Item label="Address">
-                {seller.address}
-              </Descriptions.Item>
+           
             </Descriptions>
           </CustomCard>
         ))

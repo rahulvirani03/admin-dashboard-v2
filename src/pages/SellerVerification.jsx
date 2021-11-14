@@ -32,7 +32,7 @@ export default function SellerVerification({ location }) {
   const [data, setData] = useState(location.state.sellerdata);
   const handleApprove = async () => {
     let sellerRef = "";
-    sellerRef = doc(db, "seller", `${data.business_name}`);
+    sellerRef = doc(db, "seller", `${data.displayName}`);
     console.log(sellerRef);
     const output = await updateDoc(sellerRef, {
       isSeller: true,
@@ -44,9 +44,9 @@ export default function SellerVerification({ location }) {
     <Container>
       {
         <CustomCard>
-          <div>Name: {data.business_name}</div>
-          <div>id: {data.seller_id}</div>
-          <div>address: {data.address}</div>
+          <div>Name: {data.displayName}</div>
+          <div>id: {data.uid}</div>
+          <div>address: {data.email}</div>
           <div>Aadhar or Pan: {data.aadharorpan}</div>
           <div>Store Link: {data.store_link}</div>
           <div>description: {data.description}</div>

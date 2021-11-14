@@ -11,7 +11,7 @@ import { app } from "@/Firebase/firebase";
 const db = getFirestore(app);
 
 const storeSeller = async (seller) => {
-  const res = await setDoc(doc(db, "seller", `${seller?.business_name}`), {
+  const res = await setDoc(doc(db, "users", `${seller?.business_name}`), {
     ...seller,
     isSeller: false,
   });
@@ -19,8 +19,9 @@ const storeSeller = async (seller) => {
 const getSellers = async () => {
   const data = [];
   let id = "";
-  const q = query(collection(db, "seller"), where("isSeller", "==", true));
-  const querySnapshot = await getDocs(q);
+  const q = query(collection(db, "users"), where("isSeller", "==", true));
+  const q1 = query(collection(db, "users"));
+  const querySnapshot = await getDocs(q1);
   querySnapshot.forEach((doc) => {
     id = doc.id;
     data.push(doc.data());
@@ -36,13 +37,11 @@ const getCategories = async () => {
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     id = doc.id;
-    const temp={
-      "id":id,
-      "data":doc.data()};
-    data.push(temp);
+   console.log(doc.data());
+    data.push({...doc.data(),id});
   });
   console.log(data);
-  return {data };
+  return data;
 };
 
 const setFirestoreCategories =async (category) =>{
@@ -65,7 +64,7 @@ const setFirestoreCategories =async (category) =>{
 const getSellersWithWhere = async () => {
   const data = [];
   let id = "";
-  const q = query(collection(db, "seller"), where("isSeller", "==", false));
+  const q = query(collection(db, "users"), where("isSeller", "==", false));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     id = doc.id;

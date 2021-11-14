@@ -74,12 +74,12 @@ export default function Sellers() {
         <CustomSpin indicator={antIcon}></CustomSpin>
       ) : (
         filterData?.map(item =>{
-          return <CustomCard key={item.seller_id} onClick={() => history.push({
-            pathname:`/view-seller/${item.seller_id}`,
+          return <CustomCard key={item.id} onClick={() => history.push({
+            pathname:`/view-seller/${item.id}`,
             state:{sellerdata:item}
           })}>
-          <p>{item.business_name}</p>
-           <a >{item.store_link}</a>
+          <p>{item.displayName}</p>
+           <a >{item.email}</a>
          </CustomCard>
         })
        
