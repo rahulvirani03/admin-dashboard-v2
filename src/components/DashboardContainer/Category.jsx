@@ -3,14 +3,14 @@ import { Input, Button, Tag, Card, List, notification } from "antd";
 import styled from "styled-components";
 import { styles } from "@themes";
 import { colors } from "@themes";
-import { getCategories, setFirestoreCategories } from "@/Firebase/firestore";
-const Container = styled.div`
+import { getCategories } from "@utils/dbUtils";
 
+const Container = styled.div`
   align-items: center;
   padding: 1rem;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 `;
 
 const CustomCard = styled(Card)`
@@ -31,15 +31,15 @@ const CustomDiv = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const CategoryContainer=styled.div`
-display: flex;
-flex-wrap: wrap;
- align-items: center;
- justify-content: center;
+const CategoryContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   padding: 1rem;
-   
-    align-items: center;
-    margin: 0 auto;
+
+  align-items: center;
+  margin: 0 auto;
 `;
 
 export default function Category() {
@@ -51,34 +51,29 @@ export default function Category() {
   const handleClick = async () => {
     let res1 = await setFirestoreCategories(value);
     setRes(res1);
-    console.log(res);
     notification["success"]({
-        message:"Category Added"
-    })
-    setValue("")
+      message: "Category Added",
+    });
+    setValue("");
   };
   const handleSearch = (e) => {
-    console.log(e.target.value);
     setFilter(e.target.value);
     setFilterData(
-      categories.filter((category) => category.name.toLowerCase().includes(e.target.value.toLowerCase()))
+      categories.filter((category) =>
+        category.name.toLowerCase().includes(e.target.value.toLowerCase())
+      )
     );
   };
   useEffect(() => {
     const getFirestoreCategories = async () => {
       const result = await getCategories();
-      console.log(result);
-    
       setCategories(result);
-      setFilterData(result)
-      console.log(categories);
+      setFilterData(result);
     };
     getFirestoreCategories();
     setRes("");
   }, [res]);
-  useEffect(() => {
-   console.log(categories)
-  }, [categories]);
+  useEffect(() => {}, [categories]);
 
   return (
     <Container>
@@ -102,17 +97,14 @@ export default function Category() {
           onChange={handleSearch}
         />
       </CustomDiv>
-        <CategoryContainer>
-      {
-       
-        filterdata?.map(item =>{
-            return <CustomCard key={item.id}>
-            <p>{item.name}</p>
-          
-           </CustomCard>
-          })
-         
-      }
+      <CategoryContainer>
+        {filterdata?.map((item) => {
+          return (
+            <CustomCard key={item.id}>
+              <p>{item.name}</p>
+            </CustomCard>
+          );
+        })}
       </CategoryContainer>
     </Container>
   );

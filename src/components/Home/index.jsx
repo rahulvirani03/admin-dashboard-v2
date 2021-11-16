@@ -24,9 +24,8 @@ const Container = styled.div`
   padding: 10rem 0;
   border-radius: ${styles.borderRadius};
   @media only screen and (max-width: 600px) {
-   display: block;
-   
-}
+    display: block;
+  }
 `;
 
 const CustomCard = styled(Card)`
@@ -42,11 +41,9 @@ const CustomLoginCard = styled(Card)`
   border-radius: ${styles.borderRadius};
   box-shadow: ${styles.boxShadow};
   margin: 0 auto;
-  @media only screen and (max-width:  600px) {
-  margin: 2rem auto;
-   
-}
-
+  @media only screen and (max-width: 600px) {
+    margin: 2rem auto;
+  }
 `;
 
 const Heading = styled.h1`
@@ -59,7 +56,7 @@ const Bold = styled.b`
   font-size: 20px;
 `;
 export default function Landingpage() {
-  const [login, setLogin] = useState('');
+  const [login, setLogin] = useState("");
   const [creds, setCreds] = useState({
     email: "",
     password: "",
@@ -84,7 +81,6 @@ export default function Landingpage() {
         creds.email,
         creds.password
       );
-      console.log(res.user.email);
       if (res.user) {
         history.push("/dashboard");
       }

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Input, InputNumber, Modal, Form, Radio } from "antd";
-import { storeSeller } from "@/Firebase/firestore";
 import { Button } from "@components/custom";
 import { useHistory } from "react-router-dom";
+import { storeSeller } from "@utils/dbUtils";
 
 export default function AddSeller() {
-  const history=useHistory();
+  const history = useHistory();
   const layout = {
     labelCol: {
       span: 6,
@@ -24,17 +24,13 @@ export default function AddSeller() {
     document: "",
   });
   const handleChange = (e) => {
-    console.log(e.target.name);
-    console.log(e.target.value);
     setSeller({ ...seller, [e.target.name]: e.target.value });
   };
   const handleSubmit = async () => {
-    console.log({ seller });
     const res = await storeSeller(seller);
-    console.log(res);
-    setSeller("")
-    history.push('/dashboard?key=requests')
-    
+
+    setSeller("");
+    history.push("/dashboard?key=requests");
   };
   const validateMessages = {
     required: "${label} is required!",
@@ -48,9 +44,8 @@ export default function AddSeller() {
   };
 
   return (
-
     <Form {...layout} name="nest-messages" validateMessages={validateMessages}>
-    <h2 style={{textAlign:"center"}}>  New Seller Form</h2>
+      <h2 style={{ textAlign: "center" }}> New Seller Form</h2>
       <Form.Item
         name="seller_id"
         label="Seller Id"

@@ -55,8 +55,9 @@ const RenderComponent = styled.div`
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-export default function Dashboard() {
-    const history = useHistory();
+export default function index() {
+
+const history = useHistory();
     const query = new URLSearchParams(location.search);
     const key = query.get("key") || REQUESTS;
   
@@ -66,7 +67,8 @@ export default function Dashboard() {
     setCollapsed(!collapsed)
 }
     return (
-        <Layout  style={{backgroundColor:`${colors.white}`,margin:"2px", borderRadius:`${styles.borderRadius}` , boxShadow:`${styles.boxShadow}`, minHeight: '100vh' }} >
+      <Container>
+        <Layout  style={{ backgroundColor:`${colors.white}`,margin:"2px", borderRadius:`${styles.borderRadius}` , boxShadow:`${styles.boxShadow}`, minHeight: '100vh'    }} >
         <Sider  
         theme="dark"
         breakpoint="md"
@@ -164,5 +166,7 @@ export default function Dashboard() {
         {key === SETTINGS && <Settings />}
         </Layout>
       </Layout>
+      </Container>
+     
     )
 }

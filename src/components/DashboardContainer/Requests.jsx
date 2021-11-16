@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Descriptions, Card, Spin, Input, Button } from "antd";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { getSellersWithWhere } from "@/Firebase/firestore";
 import { LoadingOutlined, SearchOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { styles } from "@themes";
+import { getSellersWithWhere } from "@utils/dbUtils";
 
 const Container = styled.div`
   position: relative;
@@ -42,47 +42,46 @@ export default function Requests() {
       let temp = result.data;
       setData(result.data);
       setFilterData(result.data);
-      console.log(data);
     };
 
     sellersData();
   }, []);
   const handleChange = (e) => {
-   
-    if(e.target.value==="")
-    {
-      setFilterData(data)
+    if (e.target.value === "") {
+      setFilterData(data);
     }
     setFilterData(
-      data.filter((requests) => requests.business_name.toLowerCase().includes(e.target.value.toLowerCase())));
-    
+      data.filter((requests) =>
+        requests.business_name
+          .toLowerCase()
+          .includes(e.target.value.toLowerCase())
+      )
+    );
   };
-  
+
   return (
     <Container>
-    
-        <Input placeholder="Search Requests.. " onChange={handleChange} />
+      <Input placeholder="Search Requests.. " onChange={handleChange} />
       {loading ? (
         <CustomSpin indicator={antIcon}></CustomSpin>
       ) : (
         filterData?.map((seller) => (
           <CustomCard
-            key={seller.seller_id}
+            key={seller.uid}
             onClick={() =>
               history.push({
-                pathname: `/verify-seller/${seller.seller_id}`,
+                pathname: `/verify-seller/${seller.uid}`,
                 state: { sellerdata: seller },
               })
             }
           >
-            <Descriptions title={seller.displayName}>
+            <Descriptions title={seller.username}>
               <Descriptions.Item label="Seller ID">
                 {seller.uid}
               </Descriptions.Item>
-              <Descriptions.Item label="Email">
-                {seller.email}
+              <Descriptions.Item label="Username">
+                {seller.username}
               </Descriptions.Item>
-           
             </Descriptions>
           </CustomCard>
         ))
