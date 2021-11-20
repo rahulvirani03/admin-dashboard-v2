@@ -28,8 +28,8 @@ export default function index({}) {
   const [data, setData] = useState(location.state.sellerdata);
 
   const handleApprove = async () => {
-    let sellerRef = "";
-    const output = await approveUser(uid);
+  
+    const output = await approveUser(uid,seller);
     history.push("/dashboard?key=requests");
   };
 

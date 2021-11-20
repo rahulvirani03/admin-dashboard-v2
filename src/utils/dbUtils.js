@@ -6,6 +6,7 @@ import {
   getFirestore,
   query,
   where,
+  updateDoc,
   collection,
 } from "firebase/firestore";
 import { app, db } from "@/Firebase/firebase";
@@ -80,12 +81,17 @@ export const getSellerToVerify = async (uid) => {
   return res;
 };
 
-export const approveUser = async (uid) => {
+export const approveUser = async (uid,seller) => {
+  let sellerRef = "";
   sellerRef = doc(db, "seller-request", uid);
   const output = await updateDoc(sellerRef, {
     isVerified: true,
   });
+  const isSellerRef=doc(db,"users",uid);
+  await updateDoc(isSellerRef,{
+    isSeller:true,
+  })
   const res = await setDoc(doc(db, "sellers", uid), {
-    ...seller,
+    businessName:seller.businessName,
   });
 };
