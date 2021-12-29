@@ -77,10 +77,14 @@ export default function index({}) {
           <Input value={seller?.gstin} disabled />
         </Field>
         <Field>
-          <Label>Documenent</Label>
+          <Label>Document Name</Label>
+          <Input value={seller?.document?.documentName} disabled />
+        </Field>
+        <Field>
+          <Label>Document</Label>
           <Image
             style={{ width: "6rem", height: "6rem" }}
-            src={seller?.document.documentURL}
+            src={seller?.document?.documentURL}
           />
         </Field>
         <Field>
