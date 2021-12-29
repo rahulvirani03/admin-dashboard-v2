@@ -3,7 +3,12 @@ import { Input, Button, Tag, Card, List, notification } from "antd";
 import styled from "styled-components";
 import { styles } from "@themes";
 import { colors } from "@themes";
-import { getCategories } from "@utils/dbUtils";
+import {
+  deleteCategory,
+  getCategories,
+  setFirestoreCategories,
+} from "@utils/dbUtils";
+import FeatherIcon from "feather-icons-react";
 
 const Container = styled.div`
   align-items: center;
@@ -42,13 +47,22 @@ const CategoryContainer = styled.div`
   margin: 0 auto;
 `;
 
+const DeleteBtn = styled(FeatherIcon)`
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+`;
+
 export default function Category() {
   const [value, setValue] = useState("");
   const [categories, setCategories] = useState([]);
   const [filterdata, setFilterData] = useState([]);
   const [filter, setFilter] = useState("");
   const [res, setRes] = useState("");
+
   const handleClick = async () => {
+    console.log({ value });
     let res1 = await setFirestoreCategories(value);
     setRes(res1);
     notification["success"]({
@@ -64,12 +78,21 @@ export default function Category() {
       )
     );
   };
+
+  const handleDelete = async (item) => {
+    const res = await deleteCategory(item);
+
+    notification["success"]({
+      message: "Category Deleted",
+    });
+  };
   useEffect(() => {
     const getFirestoreCategories = async () => {
       const result = await getCategories();
       setCategories(result);
       setFilterData(result);
     };
+    console.log("checkup");
     getFirestoreCategories();
     setRes("");
   }, [res]);
@@ -101,6 +124,11 @@ export default function Category() {
         {filterdata?.map((item) => {
           return (
             <CustomCard key={item.id}>
+              <DeleteBtn
+                onClick={() => handleDelete(item)}
+                icon="x-square"
+                size="15"
+              />
               <p>{item.name}</p>
             </CustomCard>
           );

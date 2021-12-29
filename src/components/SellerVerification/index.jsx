@@ -35,6 +35,7 @@ export default function index({}) {
 
   const getSellerData = async () => {
     const result = await getSellerToVerify(uid);
+    console.log(result);
     setSeller(result);
   };
   useEffect(() => {
@@ -79,7 +80,7 @@ export default function index({}) {
           <Label>Documenent</Label>
           <Image
             style={{ width: "6rem", height: "6rem" }}
-            src={seller?.documentURL}
+            src={seller?.document.documentURL}
           />
         </Field>
         <Field>

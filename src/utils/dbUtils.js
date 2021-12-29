@@ -3,7 +3,9 @@ import {
   getDoc,
   getDocs,
   setDoc,
+  deleteDoc,
   getFirestore,
+  onSnapshot,
   query,
   where,
   updateDoc,
@@ -22,7 +24,7 @@ export const getSellers = async () => {
   let id = "";
   const q = query(collection(db, "users"), where("isSeller", "==", true));
   const q1 = query(collection(db, "users"));
-  const querySnapshot = await getDocs(q1);
+  const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     id = doc.id;
     data.push(doc.data());
@@ -56,22 +58,24 @@ export const setFirestoreCategories = async (category) => {
 };
 
 export const getSellersWithWhere = async () => {
-  const data = [];
+  let data = [];
   let id = "";
   const q = query(
     collection(db, "seller-request"),
     where("isVerified", "==", false)
   );
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    id = doc.id;
-    data.push(doc.data());
-  });
-  return { id, data };
+  onSnapshot(q,(qs)=>{
+    const temp=[];
+    qs.forEach((doc)=>{
+      temp.push(doc.data());
+    })
+    data.push(...temp)
+  })
+  return data;
 };
 
 export const getSellerToVerify = async (uid) => {
-  var res;
+  let res;
   const q = query(collection(db, "users"), where("uid", "==", uid));
   const result = await getDocs(q);
   result.forEach((item) => {
@@ -95,3 +99,16 @@ export const approveUser = async (uid,seller) => {
     businessName:seller.businessName,
   });
 };
+
+
+export const deleteCategory =async (item)=>{
+  try{
+    console.log({item});
+    const res=await deleteDoc(doc(db,'categories',item.id))
+    return res;
+  }
+  catch(err){
+    console.log({err});
+  }
+    
+}

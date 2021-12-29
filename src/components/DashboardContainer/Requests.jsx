@@ -7,7 +7,8 @@ import { LoadingOutlined, SearchOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { styles } from "@themes";
 import { getSellersWithWhere } from "@utils/dbUtils";
-
+import { query, onSnapshot, collection, where } from "@firebase/firestore";
+import { db } from "@/Firebase/firebase";
 const Container = styled.div`
   position: relative;
   align-items: center;
@@ -29,23 +30,33 @@ export default function Requests() {
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
-  const [filterData, setFilterData] = useState(null);
+  const [data, setData] = useState();
+  const [filterData, setFilterData] = useState();
 
   const [id, setId] = useState();
   useEffect(() => {
+   
     setLoading(true);
-    const sellersData = async () => {
-      const result = await getSellersWithWhere();
-      setLoading(false);
-      setId(result.id);
-      let temp = result.data;
-      setData(result.data);
-      setFilterData(result.data);
-    };
 
     sellersData();
   }, []);
+
+  const sellersData = async () => {
+    const q = query(
+      collection(db, "seller-request"),
+      where("isVerified", "==", false)
+    );
+    onSnapshot(q, (qs) => {
+      const temp = [];
+      qs.forEach((doc) => {
+        temp.push(doc.data());
+      });
+      console.log(...temp);
+      setData(temp);
+      setFilterData(temp);
+    });
+  };
+
   const handleChange = (e) => {
     if (e.target.value === "") {
       setFilterData(data);
@@ -62,10 +73,8 @@ export default function Requests() {
   return (
     <Container>
       <Input placeholder="Search Requests.. " onChange={handleChange} />
-      {loading ? (
-        <CustomSpin indicator={antIcon}></CustomSpin>
-      ) : (
-        filterData?.map((seller) => (
+      {filterData?.map((seller) => {
+        return (
           <CustomCard
             key={seller.uid}
             onClick={() =>
@@ -75,17 +84,18 @@ export default function Requests() {
               })
             }
           >
+            {" "}
             <Descriptions title={seller.username}>
               <Descriptions.Item label="Seller ID">
                 {seller.uid}
               </Descriptions.Item>
               <Descriptions.Item label="Username">
-                {seller.username}
+                {seller.email}
               </Descriptions.Item>
             </Descriptions>
           </CustomCard>
-        ))
-      )}
+        );
+      })}
     </Container>
   );
 }
