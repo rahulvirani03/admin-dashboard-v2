@@ -16,6 +16,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  width:100%;
 `;
 
 const CustomCard = styled(Card)`
@@ -34,6 +35,7 @@ const CustomCard = styled(Card)`
 const CustomDiv = styled.div`
   margin: 1rem auto;
   display: flex;
+  width:100%;
   justify-content: space-between;
 `;
 const CategoryContainer = styled.div`
@@ -92,11 +94,11 @@ export default function Category() {
       setCategories(result);
       setFilterData(result);
     };
-    console.log("checkup");
+  
     getFirestoreCategories();
     setRes("");
   }, [res]);
-  useEffect(() => {}, [categories]);
+ 
 
   return (
     <Container>

@@ -32,16 +32,33 @@ export const getSellers = async () => {
 
   return { id, data };
 };
+export const getUsers = async () => {
+  const data = [];
+  let id = "";
+  const q = query(collection(db, "users"), where("isSeller", "==", true));
+  const q1 = query(collection(db, "users"));
+  const querySnapshot = await getDocs(q1);
+  querySnapshot.forEach((doc) => {
+    id = doc.id;
+    data.push(doc.data());
+  });
+
+  return { id, data };
+};
 
 export const getCategories = async () => {
   const data = [];
   let id = "";
   const q = query(collection(db, "categories"));
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    id = doc.id;
-    data.push({ ...doc.data(), id });
-  });
+  const res =await getDocs(q)
+  res.forEach(doc=>{
+       data.push({ ...doc.data(), id });
+  })
+  // const querySnapshot = await getDocs(q);
+  // querySnapshot.forEach((doc) => {
+  //   id = doc.id;
+  //   data.push({ ...doc.data(), id });
+  // });
   return data;
 };
 

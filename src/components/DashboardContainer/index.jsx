@@ -70,7 +70,7 @@ const history = useHistory();
       <Container>
         <Layout  style={{ backgroundColor:`${colors.white}`,margin:"2px", borderRadius:`${styles.borderRadius}` , boxShadow:`${styles.boxShadow}`, minHeight: '100vh'    }} >
         <Sider  
-        theme="dark"
+        
         breakpoint="md"
         collapsedWidth="50"
         collapsible collapsed={collapsed} onCollapse={handleCollapse}>
@@ -96,9 +96,9 @@ const history = useHistory();
               history.replace(`/dashboard?key=${SELLER}`);
             }}
           >
-            Seller
+            Users
           </Menu.Item>
-          <Menu.Item
+          {/* <Menu.Item
             key="add-seller"
             icon={<UserAddOutlined />}
             onClick={() => {
@@ -106,7 +106,7 @@ const history = useHistory();
             }}
           >
             Add Seller
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item
             key="categories"
             icon={<UnorderedListOutlined />}

@@ -69,39 +69,11 @@ export default function index({}) {
           <Input value={seller?.description} disabled />
         </Field>
         <Field>
-          <Label>Aadhar or PAN</Label>
-          <Input value={seller?.aadharOrPan} disabled />
-        </Field>
-        <Field>
-          <Label>GSTIN</Label>
-          <Input value={seller?.gstin} disabled />
-        </Field>
-        <Field>
-          <Label>Document Name</Label>
-          <Input value={seller?.document?.documentName} disabled />
-        </Field>
-        <Field>
           <Label>Document</Label>
           <Image
             style={{ width: "6rem", height: "6rem" }}
             src={seller?.document?.documentURL}
           />
-        </Field>
-        <Field>
-          <Label>Store Images</Label>
-          {seller?.storeImages && (
-            <FlexContainer>
-              {seller?.storeImages.map((item) => {
-                return (
-                  <Image
-                    key={item.imageURL}
-                    style={{ width: "6rem", height: "6rem" }}
-                    src={item?.imageURL}
-                  />
-                );
-              })}
-            </FlexContainer>
-          )}
         </Field>
 
         <div style={{ display: "flex" }}>
